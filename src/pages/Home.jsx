@@ -86,9 +86,13 @@ function Home() {
               Our AI-driven sanctuary helps you organize, strategize, and eliminate debt with quiet confidence.
             </div>
 
-            <div>
-              <button className='bg-emerald-950 text-white px-6 py-4 font-bold rounded-xl hover:bg-emerald-950/90 active:bg-emerald-950/80 transition-all'>
+            <div className='flex gap-10'>
+              <button className='bg-emerald-950 text-white px-6 py-4 font-bold rounded-xl hover:bg-emerald-950/90 active:bg-emerald-950/80 transition-all cursor-pointer'>
                 Start Your Journey
+              </button>
+              <button className='border border-gray-500 px-7 rounded-3xl font-medium text-green-950 flex items-center gap-2 text-lg cursor-pointer transition-all'>
+                <img src="https://www.svgrepo.com/show/379237/play-circle.svg" className='h-7'/>
+                Watch Demo
               </button>
             </div>
           </div>

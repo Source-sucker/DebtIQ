@@ -4,12 +4,10 @@ import { Link, useNavigate } from "react-router-dom"
 function SignUp() {
   const navigate = useNavigate();
 
-  // State for form inputs
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Simple Email Regex for validation
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -17,9 +15,8 @@ function SignUp() {
   };
 
   const handleSignUp = (e) => {
-    e.preventDefault(); // Prevent form reload
+    e.preventDefault();
 
-    // Criteria: Valid email and Password length >= 6
     if (validateEmail(email) && password.length >= 6) {
       navigate("/dashboard");
     } else {
@@ -98,9 +95,7 @@ function SignUp() {
                 <label className="font-bold text-emerald-950 ml-1 text-sm uppercase tracking-wider">Full Name</label>
                 <input 
                   type="text" 
-                  placeholder="Alex Johnson"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Aditya Kumar Gupta"
                   className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-emerald-950 transition-all"
                   required
                 />
