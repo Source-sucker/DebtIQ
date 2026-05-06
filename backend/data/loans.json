@@ -1,0 +1,32 @@
+[
+  {
+    "id": "9b532d77-c92e-490b-874e-7168452db2cf",
+    "name": "Home Loan",
+    "principal": 500000,
+    "annualRate": 7.5,
+    "months": 240,
+    "startDate": "2024-01-15",
+    "lender": "HDFC Bank",
+    "monthlyEMI": 4027.97,
+    "totalAmount": 966712.8,
+    "totalInterest": 466712.8,
+    "status": "active",
+    "createdAt": "2026-05-06T03:29:24.483Z",
+    "updatedAt": "2026-05-06T03:29:24.483Z"
+  },
+  {
+    "id": "82fb9ec6-c33a-42e6-96d8-9c5dd364f3aa",
+    "name": "Car Loan",
+    "principal": 800000,
+    "annualRate": 8.5,
+    "months": 60,
+    "startDate": "2024-02-01",
+    "lender": "SBI Bank",
+    "monthlyEMI": 16413.23,
+    "totalAmount": 984793.8,
+    "totalInterest": 184793.8,
+    "status": "active",
+    "createdAt": "2026-05-06T03:30:02.910Z",
+    "updatedAt": "2026-05-06T03:30:02.910Z"
+  }
+]

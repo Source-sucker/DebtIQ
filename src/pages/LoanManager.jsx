@@ -1,46 +1,105 @@
 import React, { useState } from 'react';
-import { Plus, Home, Car, GraduationCap, X, Wallet, Bell, MoreVertical, Layout } from 'lucide-react';
+import { Plus, X, Wallet, Loader } from 'lucide-react';
+import useLoanManager from '../hooks/useLoanManager';
 
 const LoanManager = () => {
-  const [loans, setLoans] = useState([]);
+  const { loans, createLoan, deleteLoan, loading, error } = useLoanManager();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState('All Active');
-  
-  const [formData, setFormData] = useState({ 
-    bank: '', 
-    type: 'Personal', 
-    amount: '', 
-    rate: '', 
-    emi: '' 
+  const [formError, setFormError] = useState('');
+  const [formLoading, setFormLoading] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    principal: '',
+    annualRate: '',
+    months: '',
+    startDate: '',
+    lender: ''
   });
 
-  const handleCreateLoan = (e) => {
-    e.preventDefault();
-    const newEntry = {
-      id: Date.now(),
-      bank: formData.bank,
-      type: formData.type,
-      amount: parseFloat(formData.amount),
-      rate: parseFloat(formData.rate),
-      emi: parseFloat(formData.emi),
-      progress: 0,
-      status: "New",
-      icon: getIcon(formData.type)
-    };
-    setLoans([newEntry, ...loans]);
-    setIsModalOpen(false);
-    setFormData({ bank: '', type: 'Personal', amount: '', rate: '', emi: '' });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    setFormError('');
   };
 
-  const getIcon = (type) => {
-    if (type.includes('Home') || type.includes('Mortgage')) return <Home size={20}/>;
-    if (type.includes('Auto') || type.includes('Car')) return <Car size={20}/>;
-    if (type.includes('Student')) return <GraduationCap size={20}/>;
-    return <Wallet size={20}/>;
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      setFormError('Loan name is required');
+      return false;
+    }
+    if (!formData.principal || parseFloat(formData.principal) <= 0) {
+      setFormError('Principal must be a positive number');
+      return false;
+    }
+    if (!formData.annualRate || parseFloat(formData.annualRate) < 0 || parseFloat(formData.annualRate) > 50) {
+      setFormError('Annual rate must be between 0 and 50');
+      return false;
+    }
+    if (!formData.months || parseInt(formData.months) < 1 || parseInt(formData.months) > 360) {
+      setFormError('Duration must be between 1 and 360 months');
+      return false;
+    }
+    if (!formData.startDate) {
+      setFormError('Start date is required');
+      return false;
+    }
+    if (!formData.lender.trim()) {
+      setFormError('Lender name is required');
+      return false;
+    }
+    return true;
+  };
+
+  const handleCreateLoan = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    setFormLoading(true);
+    try {
+      await createLoan({
+        name: formData.name,
+        principal: parseFloat(formData.principal),
+        annualRate: parseFloat(formData.annualRate),
+        months: parseInt(formData.months),
+        startDate: formData.startDate,
+        lender: formData.lender
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        principal: '',
+        annualRate: '',
+        months: '',
+        startDate: '',
+        lender: ''
+      });
+      setIsModalOpen(false);
+      setFormError('');
+    } catch (err) {
+      setFormError(err.message || 'Failed to create loan');
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const handleDeleteLoan = async (id) => {
+    if (window.confirm('Are you sure you want to delete this loan?')) {
+      try {
+        await deleteLoan(id);
+      } catch (err) {
+        setFormError(err.message || 'Failed to delete loan');
+      }
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] font-sans">
+    <div className="min-h-screen bg-slate-200/50 p-6 md:p-16">
 
       <main className="max-w-7xl mx-auto p-6 md:p-16 flex flex-col gap-12">
         
