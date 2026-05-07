@@ -12,7 +12,6 @@ function Support() {
 
   return (
     <div className="h-screen w-full bg-white font-sans overflow-hidden flex flex-col ">
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" />
       
       <header className="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div className="flex justify-between items-center h-20 px-16 w-full">
